@@ -63,3 +63,50 @@ export async function getWeather(city: string): Promise<WeatherData> {
     throw new Error('Unexpected error. Please try again later.');
   }
 }
+// Thêm vào cuối file weatherApi.ts
+
+export interface ForecastItem {
+  dt: number;
+  main: {
+    temp: number;
+    temp_min: number;
+    temp_max: number;
+  };
+  weather: {
+    main: string;
+    description: string;
+    icon: string;
+  }[];
+  dt_txt: string;
+}
+
+export interface ForecastData {
+  list: ForecastItem[];
+}
+
+export async function getForecast(city: string): Promise<ForecastData> {
+  try {
+    const response = await axios.get<ForecastData>(
+      'https://api.openweathermap.org/data/2.5/forecast',
+      {
+        params: {
+          q: city.trim(),
+          appid: API_KEY,
+          units: 'metric',
+          cnt: 40,
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 404) {
+        throw new Error(`City "${city}" not found.`);
+      }
+      if (error.request) {
+        throw new Error('No internet connection.');
+      }
+    }
+    throw new Error('Unexpected error. Please try again later.');
+  }
+}

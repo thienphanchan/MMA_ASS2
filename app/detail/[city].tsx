@@ -11,31 +11,39 @@ import {
   View,
 } from 'react-native';
 import { ErrorMessage } from '../../components/ErrorMessage';
+import { ForecastStrip } from '../../components/detail/ForecastStrip';
 import { HeroCard } from '../../components/detail/HeroCard';
 import { StatsGrid } from '../../components/detail/StatsGrid';
 import { SunCard } from '../../components/detail/SunCard';
 import { theme } from '../../constants/theme';
-import { getWeather } from '../../services/weatherApi';
+import { ForecastItem, getForecast, getWeather } from '../../services/weatherApi';
 import { WeatherData } from '../../types/weather';
 
 export default function DetailScreen() {
   const { city } = useLocalSearchParams<{ city: string }>();
   const router = useRouter();
+
   const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [forecast, setForecast] = useState<ForecastItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchWeather();
+    fetchAll();
   }, [city]);
 
-  const fetchWeather = async () => {
+  const fetchAll = async () => {
     if (!city) return;
     setLoading(true);
     setError(null);
     try {
-      const data = await getWeather(decodeURIComponent(city));
-      setWeather(data);
+      const decoded = decodeURIComponent(city);
+      const [weatherData, forecastData] = await Promise.all([
+        getWeather(decoded),
+        getForecast(decoded),
+      ]);
+      setWeather(weatherData);
+      setForecast(forecastData.list);
     } catch (err: any) {
       setError(err.message ?? 'Something went wrong.');
     } finally {
@@ -69,12 +77,19 @@ export default function DetailScreen() {
           showsVerticalScrollIndicator={false}
         >
           <HeroCard weather={weather} />
+          {forecast.length > 0 && (
+            <ForecastStrip
+              forecast={forecast}
+              currentTemp={weather.main.temp}
+            />
+          )}
           <SunCard
             sunrise={weather.sys.sunrise}
             sunset={weather.sys.sunset}
             timezone={weather.timezone}
           />
           <StatsGrid weather={weather} />
+
         </ScrollView>
       )}
     </LinearGradient>
