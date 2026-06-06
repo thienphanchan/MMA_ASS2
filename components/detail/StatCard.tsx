@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     padding: theme.spacing.md,
     alignItems: 'flex-start',
     gap: 4,
-    ...theme.shadow.card,
+    // ...theme.shadow.card,
   },
   label: {
     fontSize: 12,

@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: theme.spacing.lg,
     paddingHorizontal: theme.spacing.xl,
-    ...theme.shadow.card,
+    // ...theme.shadow.card,
   },
   item: {
     flex: 1,

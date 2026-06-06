@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.borderGlass,
     padding: theme.spacing.lg,
     alignItems: 'center',
-    ...theme.shadow.card,
+    // ...theme.shadow.card,
   },
   cityName: {
     fontSize: 30,

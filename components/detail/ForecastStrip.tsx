@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    View,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
 import { theme } from '../../constants/theme';
 import { ForecastItem } from '../../services/weatherApi';
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 100,
     gap: 4,
-    ...theme.shadow.card,
+    // ...theme.shadow.card,
   },
   cardToday: {
     borderColor: theme.colors.primary,

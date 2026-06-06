@@ -41,11 +41,11 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: theme.colors.cardGlass,
     borderRadius: 24,
-    borderWidth: 1.5,
+    // borderWidth: 1.5,
     borderColor: theme.colors.borderGlass,
     padding: theme.spacing.lg,
     marginTop: theme.spacing.lg,
-    ...theme.shadow.card,
+    // ...theme.shadow.card,
   },
   row: {
     flexDirection: 'row',
